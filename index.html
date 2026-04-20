@@ -3,374 +3,329 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1학기 1회고사 주관식 대비</title>
+<title>1학기 1회고사 완벽 대비</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --primary: #4F46E5;
     --primary-hover: #4338CA;
-    --bg-color: #F3F4F6;
+    --bg-color: #F9FAFB;
     --card-bg: #FFFFFF;
-    --text-main: #1F2937;
+    --text-main: #111827;
     --text-muted: #6B7280;
     --border-color: #E5E7EB;
     --success: #10B981;
     --danger: #EF4444;
+    --chip-bg: #EEF2FF;
+    --chip-text: #3730A3;
   }
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Noto Sans KR', 'Poppins', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
   }
-  header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-  }
-  p.subtitle {
-    color: var(--text-muted);
-    font-size: 1rem;
-  }
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
+  header { text-align: center; margin-bottom: 3rem; }
+  h1 { font-size: 2.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+  p.subtitle { color: var(--text-muted); font-size: 1.05rem; }
+  .container { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
   .card {
     background: var(--card-bg);
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease-in-out;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(229, 231, 235, 0.5);
   }
-  .card:hover {
-    transform: translateY(-2px);
-  }
-  .question-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
+  .question-header { display: flex; align-items: flex-start; margin-bottom: 1.5rem; gap: 1rem; }
   .question-number {
-    background: var(--primary);
-    color: white;
-    font-weight: 600;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    margin-right: 1rem;
-    flex-shrink: 0;
+    background: var(--primary); color: white; font-weight: 700; font-size: 1.1rem;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    border-radius: 10px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
   }
-  .korean-text {
-    font-size: 1.1rem;
-    font-weight: 500;
+  .korean-text { font-size: 1.15rem; font-weight: 600; color: #1F2937; margin-top: 0.2rem; word-break: keep-all; }
+  
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0px; }
+  .tab-btn {
+    background: none; border: none; padding: 0.75rem 1.25rem; font-size: 0.95rem; font-weight: 600;
+    color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+    transition: all 0.2s; font-family: inherit;
   }
-  .scrambled-box {
-    background: #EEF2FF;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-    color: #3730A3;
-    word-break: keep-all;
-  }
-  .input-area {
-    width: 100%;
-  }
+  .tab-btn:hover { color: var(--primary); }
+  .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+  
+  .panel { display: none; animation: fadeIn 0.3s ease-in-out; }
+  .panel.active { display: block; }
+
   textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 0.75rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
-    resize: vertical;
-    transition: border-color 0.2s;
-    margin-bottom: 1rem;
+    width: 100%; min-height: 100px; padding: 1rem; border: 1px solid var(--border-color);
+    border-radius: 10px; font-family: inherit; font-size: 1.05rem; resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s; margin-bottom: 1rem; background: #F9FAFB;
   }
-  textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); background: white; }
+  
+  .blank-sentence { font-size: 1.1rem; line-height: 2; margin-bottom: 1.5rem; }
+  .blank-input {
+    border: none; border-bottom: 2px solid #9CA3AF; background: transparent; text-align: center;
+    font-size: 1.05rem; font-family: inherit; color: var(--primary); font-weight: 600;
+    padding: 0 0.25rem; transition: border-color 0.2s;
   }
-  .btn-group {
-    display: flex;
-    gap: 0.5rem;
+  .blank-input:focus { outline: none; border-bottom-color: var(--primary); }
+  .blank-input.correct { border-bottom-color: var(--success); color: var(--success); }
+  .blank-input.wrong { border-bottom-color: var(--danger); color: var(--danger); }
+
+  .scramble-drop {
+    min-height: 80px; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 1rem;
+    margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; background: #F8FAFC;
+    align-content: flex-start;
   }
-  button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    font-family: inherit;
+  .scramble-pool {
+    display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem; background: var(--card-bg);
+    border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 1.5rem;
   }
-  .btn-check {
-    background-color: var(--primary);
-    color: white;
+  .chip {
+    background: var(--chip-bg); color: var(--chip-text); border: none; padding: 0.5rem 1rem;
+    border-radius: 999px; font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s, box-shadow 0.2s; font-family: inherit;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
-  .btn-check:hover {
-    background-color: var(--primary-hover);
+  .chip:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+  .chip:active { transform: translateY(0); }
+
+  .action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+  .btn-group { display: flex; gap: 0.75rem; }
+  .btn {
+    padding: 0.6rem 1.2rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
   }
-  .btn-reveal {
-    background-color: #E5E7EB;
-    color: var(--text-main);
+  .btn-primary { background-color: var(--primary); color: white; box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3); }
+  .btn-primary:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+  .btn-secondary { background-color: #F3F4F6; color: #4B5563; }
+  .btn-secondary:hover { background-color: #E5E7EB; }
+  
+  .feedback { font-weight: 600; font-size: 0.95rem; }
+  .feedback.correct { color: var(--success); }
+  .feedback.incorrect { color: var(--danger); }
+
+  .answer-reveal {
+    margin-top: 1.5rem; padding: 1.25rem; border-radius: 10px; background: #ECFDF5;
+    border-left: 5px solid var(--success); display: none;
   }
-  .btn-reveal:hover {
-    background-color: #D1D5DB;
-  }
-  .answer-area {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    background: #F9FAFB;
-    border-left: 4px solid var(--success);
-    display: none;
-  }
-  .answer-area.show {
-    display: block;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  .answer-label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--success);
-    text-transform: uppercase;
-    margin-bottom: 0.25rem;
-  }
-  .correct-text {
-    font-weight: 500;
-    color: var(--text-main);
-  }
-  .feedback {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-  .feedback.correct {
-    color: var(--success);
-  }
-  .feedback.incorrect {
-    color: var(--danger);
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .answer-reveal.show { display: block; animation: fadeIn 0.3s; }
+  .answer-label { font-size: 0.8rem; font-weight: 700; color: #065F46; text-transform: uppercase; margin-bottom: 0.4rem; letter-spacing: 0.5px; }
+  .correct-text { font-weight: 500; color: #064E3B; font-size: 1.05rem; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>1학기 1회고사 주관식 대비</h1>
-  <p class="subtitle">제시된 우리말과 단어들을 조합하여 올바른 영작을 완성하세요.</p>
+  <h1>1학기 1회고사 완벽 대비</h1>
+  <p class="subtitle">서술형, 빈칸 채우기, 단어 배열로 영작 실력을 점검하세요.</p>
 </header>
 
-<div class="container" id="quiz-container"></div>
+<div class="container" id="app"></div>
 
 <script>
-  const quizData = [
-    {
-      kr: "오히려, 우리가 학생들에게 원하는 학습 성과와 연결되는 게임을 개발하는 것이 바람직하다.",
-      scramble: "for / to / connect / want / rather, / that / we / desirable / is / our students / games / it / that / we / develop / the learning outcomes",
-      en: "Rather, it is desirable that we develop games that connect to the learning outcomes we want for our students."
-    },
-    {
-      kr: "감정을 표출시킴으로써 기분이 좋아지고, 감정을 함께 나누는 사람들로부터 지지를 받을 수 있을 것이다.",
-      scramble: "those / and / an emotional / you'll / feel / feel / you / from / release / from / share / with whom / having / support / better",
-      en: "You'll feel better from having an emotional release and feel support from those with whom you share."
-    },
-    {
-      kr: "이러한 방식으로 요리 분야의 운영은 남성적 전통과 관련된 자질을 더 높이 평가하고 여성을 '위대한 셰프'를 분류하는 기준에서 제외함으로써 성 불평등을 재생산한다.",
-      scramble: "the operations / from / associated / field / by / the culinary / gender inequalities / in / highly / of / classify / 'great chefs' / criteria / more / excluding / a masculine / this way, / reproduce / and / valuing / tradition / qualities / to / women / used / with",
-      en: "In this way, the operations of the culinary field reproduce gender inequalities by valuing qualities associated with a masculine tradition more highly and excluding women from criteria used to classify 'great chefs'."
-    },
-    {
-      kr: "이러한 자기기만은 우리의 자아 개념과 관련된 인지 부조화의 가능성은 줄이면서 우리가 고정관념을 유지하는 데 도움이 된다.",
-      scramble: "helps / reducing / for / maintain / self-concept / this / related / our / our / self-delusion / possibility / stereotypes / us / to / the / while / dissonance / cognitive",
-      en: "This self-delusion helps us maintain our stereotypes while reducing the possibility for cognitive dissonance related to our self-concept."
-    },
-    {
-      kr: "사람들은 자신의 사회적 판단을 이끄는 타인에 대한 고정관념을 자신이 가지고 있다는 생각과 자신이 착하고 공정하며 이성적인 사고자라는 생각으로 인해 발생하는 인지 부조화에 직면하게 된다.",
-      scramble: "confronted / that / has / one / the cognitive / fair, / a good, / the thought / others / and / by / that / and / people / thinker / aroused / dissonance / of / one / social / with / rational / stereotypes / is / the thought / that / are / guide / one's / judgments,",
-      en: "People are confronted with the cognitive dissonance aroused by the thought that one has stereotypes of others that guide one's social judgments, and the thought that one is a good, fair, and rational thinker."
-    },
-    {
-      kr: "맛있는 음식을 끝까지 먹는 것에 대한 우리의 생물학적 욕구는 그 어떤 반대되는 인지적 또는 동기 부여 요인보다 더 크다.",
-      scramble: "or / outweighs / drive / to / tasty / Our / food / to / completion / any / consume / opposing / motivational / cognitive / factors / biological",
-      en: "Our biological drive to consume tasty food to completion outweighs any opposing cognitive or motivational factors."
-    },
-    {
-      kr: "독자가 수천 개의 전문 잡지와 TV 채널이 봉사하는 좁은 관심 집단으로 분열되었다는 점에서 그들의 관심을 얻기가 더 쉽다.",
-      scramble: "interest / by / TV channels / easier / of / interest / are / have / that / narrow / fragmented / and / are / reach / to / served / into / the sense / that / magazines / in / special / audiences / groups / thousands / they",
-      en: "They are easier to reach in the sense that audiences have fragmented into narrow interest groups that are served by thousands of special interest magazines and TV channels."
-    },
-    {
-      kr: "전쟁과 평화, 환경과 빈곤 문제가 모두 이러한 범주에 속하며, 너무나 많은 초국가적인 연관성을 수반하고 있어서 그것들은 단일 국가만으로는 만족스럽게 처리될 수 없다.",
-      scramble: "such / all / a scope, / cannot / involve / issues / are / by / of / war and peace, / states / alone / of / transnational / and / satisfactorily / the environment / poverty / handled / be / single / and / so / they / that / many / linkages",
-      en: "Issues of war and peace, the environment and poverty are all of such a scope, and involve so many transnational linkages that they cannot be handled satisfactorily by single states alone."
-    },
-    {
-      kr: "우리는 다른 사람들과 같은 의견이 아닐 수도 있다는 두려움 때문에 기후 변화에 대해 이야기하지 않으려는 경향을 극복하는 것이 중요하다고 생각한다.",
-      scramble: "any / not / other people / to not / talk / that / might / to / for / feel / way / important / overcome / think / tendency / about / we / the same / climate change / it's / fear",
-      en: "We think it's important to overcome any tendency to not talk about climate change for fear that other people might not feel the same way."
-    },
-    {
-      kr: "또한 당신은 시간이 지나면서 아이들이 이러한 점검을 더 빠르게 하고 스스로 조절하게 되어, 글쓰기 할 때 아이들에게 자신의 행복을 보장할 수 있는 도구를 제공할 것임을 알게 될 것이다.",
-      scramble: "children / get / and / with / at / will / quicker / ensure / that / their / you'll / these checks / providing / over time, / take / them / of / control / own / when / also / to / find / them themselves / writing / well-being / a toolkit",
-      en: "You'll also find that children will get quicker at these checks and take control of them themselves over time, providing them with a toolkit to ensure their own well-being when writing."
-    },
-    {
-      kr: "산업화는 모든 개별 근무 시간의 잠재적 가치를 높였는데, 더 많은 시간을 일했을수록, 더 많은 제품을 생산했고, 더 많은 돈을 벌었으며, 이로써 임금은 노력과 생산량에 연계되었다.",
-      scramble: "single / of / more / produced, / the / became / made / you / production / money / hours / widgets / you / worked, / effort / the / more / work hour / every / and thus / the potential / wages / and / you / value / raised / industrialization / tied / more / the / and / to",
-      en: "Industrialization raised the potential value of every single work hour the more hours you worked, the more widgets you produced, and the more money you made and thus wages became tied to effort and production."
-    },
-    {
-      kr: "이러한 방식으로 요리 분야의 운영은 남성적 전통과 관련된 자질을 더 높이 평가하고 여성을 '위대한 셰프'를 분류하는 기준에서 제외함으로써 성 불평등을 재생산한다.",
-      scramble: "the operations / from / associated / field / by / the culinary / gender inequalities / in / highly / of / classify / 'great chefs' / criteria / more / excluding / a masculine / this way, / reproduce / and / valuing / tradition / qualities / to / women / used / with",
-      en: "In this way, the operations of the culinary field reproduce gender inequalities by valuing qualities associated with a masculine tradition more highly and excluding women from criteria used to classify 'great chefs'."
-    },
-    {
-      kr: "한 영국 출판업계 임원의 말을 빌리자면, '브랜드는 세상이 복잡해짐에 따라 고객이 선택을 더 쉽게 하도록 해준다.'",
-      scramble: "complicated' / it / make / gets / as / easier / one UK publishing executive, / in / more / of / make / the world / 'brands / choices / for / the words / the customer / to",
-      en: "In the words of one UK publishing executive, 'brands make it easier for the customer to make choices as the world gets more complicated'."
-    },
-    {
-      kr: "이러한 두 종류의 교통은 충돌과 혼란을 피하기 위해 분리되어 있어야 한다.",
-      scramble: "confusion / should / These / traffic / separate / two / be / types / and / avoid / conflict / to / kept / of",
-      en: "These two types of traffic should be kept separate to avoid conflict and confusion."
-    },
-    {
-      kr: "적어도 이런 맥락에서는 AI는 침묵을 데이터가 없는 상태가 아니라 의미 있는 데이터라고 인식하기 시작했을지도 모른다.",
-      scramble: "at least / the AI / meaningful / but / data / as / as / may / absence / be / an / starting / not / to / silence / recognise / In this context",
-      en: "In this context at least, the AI may be starting to recognise silence not as an absence but as meaningful data."
-    }
+  const data = [
+    { kr: "오히려, 우리가 학생들에게 원하는 학습 성과와 연결되는 게임을 개발하는 것이 바람직하다.", chunks: ["for","to","connect","want","rather,","that","we","desirable","is","our students","games","it","that","we","develop","the learning outcomes"], en: "Rather, it is desirable that we develop games that connect to the learning outcomes we want for our students." },
+    { kr: "감정을 표출시킴으로써 기분이 좋아지고, 감정을 함께 나누는 사람들로부터 지지를 받을 수 있을 것이다.", chunks: ["those","and","an emotional","you'll","feel","feel","you","from","release","from","share","with whom","having","support","better"], en: "You'll feel better from having an emotional release and feel support from those with whom you share." },
+    { kr: "이러한 방식으로 요리 분야의 운영은 남성적 전통과 관련된 자질을 더 높이 평가하고 여성을 '위대한 셰프'를 분류하는 기준에서 제외함으로써 성 불평등을 재생산한다.", chunks: ["the operations","from","associated","field","by","the culinary","gender inequalities","in","highly","of","classify","'great chefs'","criteria","more","excluding","a masculine","this way,","reproduce","and","valuing","tradition","qualities","to","women","used","with"], en: "In this way, the operations of the culinary field reproduce gender inequalities by valuing qualities associated with a masculine tradition more highly and excluding women from criteria used to classify 'great chefs'." },
+    { kr: "이러한 자기기만은 우리의 자아 개념과 관련된 인지 부조화의 가능성은 줄이면서 우리가 고정관념을 유지하는 데 도움이 된다.", chunks: ["helps","reducing","for","maintain","self-concept","this","related","our","our","self-delusion","possibility","stereotypes","us","to","the","while","dissonance","cognitive"], en: "This self-delusion helps us maintain our stereotypes while reducing the possibility for cognitive dissonance related to our self-concept." },
+    { kr: "사람들은 자신의 사회적 판단을 이끄는 타인에 대한 고정관념을 자신이 가지고 있다는 생각과 자신이 착하고 공정하며 이성적인 사고자라는 생각으로 인해 발생하는 인지 부조화에 직면하게 된다.", chunks: ["confronted","that","has","one","the cognitive","fair,","a good,","the thought","others","and","by","that","and","people","thinker","aroused","dissonance","of","one","social","with","rational","stereotypes","is","the thought","that","are","guide","one's","judgments,"], en: "People are confronted with the cognitive dissonance aroused by the thought that one has stereotypes of others that guide one's social judgments, and the thought that one is a good, fair, and rational thinker." },
+    { kr: "맛있는 음식을 끝까지 먹는 것에 대한 우리의 생물학적 욕구는 그 어떤 반대되는 인지적 또는 동기 부여 요인보다 더 크다.", chunks: ["or","outweighs","drive","to","tasty","Our","food","to","completion","any","consume","opposing","motivational","cognitive","factors","biological"], en: "Our biological drive to consume tasty food to completion outweighs any opposing cognitive or motivational factors." },
+    { kr: "독자가 수천 개의 전문 잡지와 TV 채널이 봉사하는 좁은 관심 집단으로 분열되었다는 점에서 그들의 관심을 얻기가 더 쉽다.", chunks: ["interest","by","TV channels","easier","of","interest","are","have","that","narrow","fragmented","and","are","reach","to","served","into","the sense","that","magazines","in","special","audiences","groups","thousands","they"], en: "They are easier to reach in the sense that audiences have fragmented into narrow interest groups that are served by thousands of special interest magazines and TV channels." },
+    { kr: "전쟁과 평화, 환경과 빈곤 문제가 모두 이러한 범주에 속하며, 너무나 많은 초국가적인 연관성을 수반하고 있어서 그것들은 단일 국가만으로는 만족스럽게 처리될 수 없다.", chunks: ["such","all","a scope,","cannot","involve","issues","are","by","of","war and peace,","states","alone","of","transnational","and","satisfactorily","the environment","poverty","handled","be","single","and","so","they","that","many","linkages"], en: "Issues of war and peace, the environment and poverty are all of such a scope, and involve so many transnational linkages that they cannot be handled satisfactorily by single states alone." },
+    { kr: "우리는 다른 사람들과 같은 의견이 아닐 수도 있다는 두려움 때문에 기후 변화에 대해 이야기하지 않으려는 경향을 극복하는 것이 중요하다고 생각한다.", chunks: ["any","not","other people","to not","talk","that","might","to","for","feel","way","important","overcome","think","tendency","about","we","the same","climate change","it's","fear"], en: "We think it's important to overcome any tendency to not talk about climate change for fear that other people might not feel the same way." },
+    { kr: "또한 당신은 시간이 지나면서 아이들이 이러한 점검을 더 빠르게 하고 스스로 조절하게 되어, 글쓰기 할 때 아이들에게 자신의 행복을 보장할 수 있는 도구를 제공할 것임을 알게 될 것이다.", chunks: ["children","get","and","with","at","will","quicker","ensure","that","their","you'll","these checks","providing","over time,","take","them","of","control","own","when","also","to","find","them themselves","writing","well-being","a toolkit"], en: "You'll also find that children will get quicker at these checks and take control of them themselves over time, providing them with a toolkit to ensure their own well-being when writing." },
+    { kr: "산업화는 모든 개별 근무 시간의 잠재적 가치를 높였는데, 더 많은 시간을 일했을수록, 더 많은 제품을 생산했고, 더 많은 돈을 벌었으며, 이로써 임금은 노력과 생산량에 연계되었다.", chunks: ["single","of","more","produced,","the","became","made","you","production","money","hours","widgets","you","worked,","effort","the","more","work hour","every","and thus","the potential","wages","and","you","value","raised","industrialization","tied","more","the","and","to"], en: "Industrialization raised the potential value of every single work hour the more hours you worked, the more widgets you produced, and the more money you made and thus wages became tied to effort and production." },
+    { kr: "이러한 방식으로 요리 분야의 운영은 남성적 전통과 관련된 자질을 더 높이 평가하고 여성을 '위대한 셰프'를 분류하는 기준에서 제외함으로써 성 불평등을 재생산한다.", chunks: ["the operations","from","associated","field","by","the culinary","gender inequalities","in","highly","of","classify","'great chefs'","criteria","more","excluding","a masculine","this way,","reproduce","and","valuing","tradition","qualities","to","women","used","with"], en: "In this way, the operations of the culinary field reproduce gender inequalities by valuing qualities associated with a masculine tradition more highly and excluding women from criteria used to classify 'great chefs'." },
+    { kr: "한 영국 출판업계 임원의 말을 빌리자면, '브랜드는 세상이 복잡해짐에 따라 고객이 선택을 더 쉽게 하도록 해준다.'", chunks: ["complicated'","it","make","gets","as","easier","one UK publishing executive,","in","more","of","make","the world","'brands","choices","for","the words","the customer","to"], en: "In the words of one UK publishing executive, 'brands make it easier for the customer to make choices as the world gets more complicated'." },
+    { kr: "이러한 두 종류의 교통은 충돌과 혼란을 피하기 위해 분리되어 있어야 한다.", chunks: ["confusion","should","These","traffic","separate","two","be","types","and","avoid","conflict","to","kept","of"], en: "These two types of traffic should be kept separate to avoid conflict and confusion." },
+    { kr: "적어도 이런 맥락에서는 AI는 침묵을 데이터가 없는 상태가 아니라 의미 있는 데이터라고 인식하기 시작했을지도 모른다.", chunks: ["at least","the AI","meaningful","but","data","as","as","may","absence","be","an","starting","not","to","silence","recognise","In this context"], en: "In this context at least, the AI may be starting to recognise silence not as an absence but as meaningful data." }
   ];
 
-  const container = document.getElementById('quiz-container');
+  const app = document.getElementById('app');
 
-  function normalizeString(str) {
+  function normalize(str) {
     return str.toLowerCase().replace(/[^a-z0-9]/g, '');
   }
 
-  quizData.forEach((item, index) => {
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  data.forEach((item, index) => {
     const card = document.createElement('div');
     card.className = 'card';
 
-    const header = document.createElement('div');
-    header.className = 'question-header';
-    
-    const num = document.createElement('div');
-    num.className = 'question-number';
-    num.textContent = index + 1;
-    
-    const krText = document.createElement('div');
-    krText.className = 'korean-text';
-    krText.textContent = item.kr;
-    
-    header.appendChild(num);
-    header.appendChild(krText);
+    const header = `
+      <div class="question-header">
+        <div class="question-number">${index + 1}</div>
+        <div class="korean-text">${item.kr}</div>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn active" data-target="write-${index}">서술형</button>
+        <button class="tab-btn" data-target="blank-${index}">빈칸 채우기</button>
+        <button class="tab-btn" data-target="sort-${index}">단어 배열</button>
+      </div>
+    `;
 
-    const scrambleBox = document.createElement('div');
-    scrambleBox.className = 'scrambled-box';
-    scrambleBox.textContent = item.scramble;
+    const writePanel = document.createElement('div');
+    writePanel.className = 'panel active';
+    writePanel.id = `write-${index}`;
+    writePanel.innerHTML = `
+      <textarea placeholder="전체 문장을 영작해보세요..."></textarea>
+      <div class="action-bar">
+        <div class="feedback"></div>
+        <div class="btn-group">
+          <button class="btn btn-primary check-write">정답 확인</button>
+          <button class="btn btn-secondary reveal-ans">정답 보기</button>
+        </div>
+      </div>
+    `;
 
-    const inputArea = document.createElement('div');
-    inputArea.className = 'input-area';
-    
-    const textarea = document.createElement('textarea');
-    textarea.placeholder = "여기에 영작을 입력하세요...";
-    textarea.id = `input-${index}`;
+    const words = item.en.split(' ');
+    const blankIndices = [];
+    const numBlanks = Math.max(3, Math.floor(words.length * 0.35));
+    while(blankIndices.length < numBlanks) {
+      const rand = Math.floor(Math.random() * words.length);
+      if(!blankIndices.includes(rand)) blankIndices.push(rand);
+    }
 
-    const btnGroup = document.createElement('div');
-    btnGroup.className = 'btn-group';
-
-    const checkBtn = document.createElement('button');
-    checkBtn.className = 'btn-check';
-    checkBtn.textContent = '정답 확인';
-
-    const revealBtn = document.createElement('button');
-    revealBtn.className = 'btn-reveal';
-    revealBtn.textContent = '정답 보기';
-
-    const feedback = document.createElement('div');
-    feedback.className = 'feedback';
-    feedback.id = `feedback-${index}`;
-
-    btnGroup.appendChild(checkBtn);
-    btnGroup.appendChild(revealBtn);
-
-    const answerArea = document.createElement('div');
-    answerArea.className = 'answer-area';
-    answerArea.id = `answer-${index}`;
-    
-    const ansLabel = document.createElement('div');
-    ansLabel.className = 'answer-label';
-    ansLabel.textContent = 'Correct Answer';
-    
-    const correctText = document.createElement('div');
-    correctText.className = 'correct-text';
-    correctText.textContent = item.en;
-
-    answerArea.appendChild(ansLabel);
-    answerArea.appendChild(correctText);
-
-    inputArea.appendChild(textarea);
-    inputArea.appendChild(btnGroup);
-    inputArea.appendChild(feedback);
-
-    card.appendChild(header);
-    card.appendChild(scrambleBox);
-    card.appendChild(inputArea);
-    card.appendChild(answerArea);
-
-    container.appendChild(card);
-
-    checkBtn.addEventListener('click', () => {
-      const userAnswer = textarea.value;
-      if (!userAnswer.trim()) {
-        feedback.textContent = '답안을 먼저 입력해주세요.';
-        feedback.className = 'feedback incorrect';
-        return;
+    const blankHtml = words.map((w, i) => {
+      if (blankIndices.includes(i)) {
+        const cleanLen = w.replace(/[^a-zA-Z]/g, '').length;
+        const width = Math.max(40, cleanLen * 12 + 10);
+        return `<input type="text" class="blank-input" data-ans="${w}" style="width:${width}px">`;
       }
-      
-      const isCorrect = normalizeString(userAnswer) === normalizeString(item.en);
-      if (isCorrect) {
-        feedback.textContent = '정답입니다! 잘하셨어요.';
-        feedback.className = 'feedback correct';
+      return w;
+    }).join(' ');
+
+    const blankPanel = document.createElement('div');
+    blankPanel.className = 'panel';
+    blankPanel.id = `blank-${index}`;
+    blankPanel.innerHTML = `
+      <div class="blank-sentence">${blankHtml}</div>
+      <div class="action-bar">
+        <div class="feedback"></div>
+        <div class="btn-group">
+          <button class="btn btn-primary check-blank">정답 확인</button>
+          <button class="btn btn-secondary reveal-ans">정답 보기</button>
+        </div>
+      </div>
+    `;
+
+    const sortPanel = document.createElement('div');
+    sortPanel.className = 'panel';
+    sortPanel.id = `sort-${index}`;
+    
+    const dropArea = document.createElement('div');
+    dropArea.className = 'scramble-drop';
+    const poolArea = document.createElement('div');
+    poolArea.className = 'scramble-pool';
+    
+    const shuffledChunks = shuffle([...item.chunks]);
+    shuffledChunks.forEach(chunk => {
+      const btn = document.createElement('button');
+      btn.className = 'chip';
+      btn.textContent = chunk;
+      btn.onclick = function() {
+        if (this.parentElement === poolArea) dropArea.appendChild(this);
+        else poolArea.appendChild(this);
+      };
+      poolArea.appendChild(btn);
+    });
+
+    sortPanel.appendChild(dropArea);
+    sortPanel.appendChild(poolArea);
+    
+    const sortAction = document.createElement('div');
+    sortAction.className = 'action-bar';
+    sortAction.innerHTML = `
+      <div class="feedback"></div>
+      <div class="btn-group">
+        <button class="btn btn-primary check-sort">정답 확인</button>
+        <button class="btn btn-secondary reveal-ans">정답 보기</button>
+      </div>
+    `;
+    sortPanel.appendChild(sortAction);
+
+    const answerBox = document.createElement('div');
+    answerBox.className = 'answer-reveal';
+    answerBox.innerHTML = `
+      <div class="answer-label">Correct Answer</div>
+      <div class="correct-text">${item.en}</div>
+    `;
+
+    card.innerHTML = header;
+    card.appendChild(writePanel);
+    card.appendChild(blankPanel);
+    card.appendChild(sortPanel);
+    card.appendChild(answerBox);
+    app.appendChild(card);
+
+    const tabBtns = card.querySelectorAll('.tab-btn');
+    const panels = card.querySelectorAll('.panel');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        card.querySelector(`#${btn.dataset.target}`).classList.add('active');
+        answerBox.classList.remove('show');
+        card.querySelectorAll('.feedback').forEach(f => f.textContent = '');
+      });
+    });
+
+    card.querySelectorAll('.reveal-ans').forEach(btn => {
+      btn.addEventListener('click', () => {
+        answerBox.classList.toggle('show');
+      });
+    });
+
+    writePanel.querySelector('.check-write').addEventListener('click', () => {
+      const val = writePanel.querySelector('textarea').value;
+      const fb = writePanel.querySelector('.feedback');
+      if(normalize(val) === normalize(item.en)) {
+        fb.textContent = '완벽합니다!'; fb.className = 'feedback correct';
       } else {
-        feedback.textContent = '틀렸습니다. 다시 시도하거나 정답을 확인해보세요.';
-        feedback.className = 'feedback incorrect';
+        fb.textContent = '틀렸습니다. 다시 확인해보세요.'; fb.className = 'feedback incorrect';
       }
     });
 
-    revealBtn.addEventListener('click', () => {
-      if (answerArea.classList.contains('show')) {
-        answerArea.classList.remove('show');
-        revealBtn.textContent = '정답 보기';
+    blankPanel.querySelector('.check-blank').addEventListener('click', () => {
+      const inputs = blankPanel.querySelectorAll('.blank-input');
+      let allCorrect = true;
+      inputs.forEach(input => {
+        if(normalize(input.value) === normalize(input.dataset.ans)) {
+          input.classList.add('correct'); input.classList.remove('wrong');
+        } else {
+          input.classList.add('wrong'); input.classList.remove('correct');
+          allCorrect = false;
+        }
+      });
+      const fb = blankPanel.querySelector('.feedback');
+      if(allCorrect) {
+        fb.textContent = '모든 빈칸을 맞췄습니다!'; fb.className = 'feedback correct';
       } else {
-        answerArea.classList.add('show');
-        revealBtn.textContent = '정답 숨기기';
+        fb.textContent = '틀린 빈칸이 있습니다.'; fb.className = 'feedback incorrect';
+      }
+    });
+
+    sortAction.querySelector('.check-sort').addEventListener('click', () => {
+      const userText = Array.from(dropArea.children).map(c => c.textContent).join(' ');
+      const fb = sortAction.querySelector('.feedback');
+      if(normalize(userText) === normalize(item.en)) {
+        fb.textContent = '순서가 완벽하게 맞습니다!'; fb.className = 'feedback correct';
+      } else {
+        fb.textContent = '순서가 올바르지 않습니다.'; fb.className = 'feedback incorrect';
       }
     });
   });
