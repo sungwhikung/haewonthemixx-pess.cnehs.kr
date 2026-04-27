@@ -86,12 +86,13 @@
   }
   .chip {
     background: var(--chip-bg); color: var(--chip-text); border: none; padding: 0.5rem 1rem;
-    border-radius: 999px; font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    border-radius: 999px; font-size: 0.95rem; font-weight: 500; cursor: grab;
     transition: transform 0.1s, background-color 0.2s, box-shadow 0.2s; font-family: inherit;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); user-select: none;
   }
   .chip:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-  .chip:active { transform: translateY(0); }
+  .chip:active { cursor: grabbing; }
+  .chip.dragging { opacity: 0.5; transform: scale(0.95); box-shadow: none; pointer-events: none; }
 
   .action-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
   .btn-group { display: flex; gap: 0.75rem; }
@@ -107,6 +108,15 @@
   .feedback { font-weight: 600; font-size: 0.95rem; }
   .feedback.correct { color: var(--success); }
   .feedback.incorrect { color: var(--danger); }
+
+  .diff-box {
+    margin-top: 1rem; padding: 1.25rem; background: #FEF2F2; border: 1px solid #FCA5A5;
+    border-radius: 10px; font-size: 1.05rem; display: none; line-height: 1.8; word-break: keep-all;
+  }
+  .diff-box.show { display: block; animation: fadeIn 0.3s; }
+  .diff-correct { color: #059669; }
+  .diff-wrong { color: #DC2626; text-decoration: line-through; margin: 0 0.25rem; opacity: 0.8; }
+  .diff-missing { color: #DC2626; font-weight: 700; background: #FEE2E2; padding: 0.1rem 0.4rem; border-radius: 4px; margin: 0 0.25rem; box-shadow: inset 0 0 0 1px #FCA5A5; }
 
   .answer-reveal {
     margin-top: 1.5rem; padding: 1.25rem; border-radius: 10px; background: #ECFDF5;
@@ -161,6 +171,39 @@
     return array;
   }
 
+  function getDiffHtml(userText, targetText) {
+    const uWords = userText.trim().split(/\s+/).filter(w => w);
+    const tWords = targetText.trim().split(/\s+/).filter(w => w);
+    const n = uWords.length, m = tWords.length;
+    const dp = Array.from({length: n+1}, () => Array(m+1).fill(0));
+    
+    for (let i = 1; i <= n; i++) {
+      for (let j = 1; j <= m; j++) {
+        if (normalize(uWords[i-1]) === normalize(tWords[j-1])) {
+          dp[i][j] = dp[i-1][j-1] + 1;
+        } else {
+          dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+        }
+      }
+    }
+    
+    let i = n, j = m;
+    const result = [];
+    while (i > 0 || j > 0) {
+      if (i > 0 && j > 0 && normalize(uWords[i-1]) === normalize(tWords[j-1])) {
+        result.unshift(`<span class="diff-correct">${uWords[i-1]}</span>`);
+        i--; j--;
+      } else if (j > 0 && (i === 0 || dp[i][j-1] >= dp[i-1][j])) {
+        result.unshift(`<span class="diff-missing">${tWords[j-1]}</span>`);
+        j--;
+      } else {
+        result.unshift(`<span class="diff-wrong">${uWords[i-1]}</span>`);
+        i--;
+      }
+    }
+    return result.join(' ');
+  }
+
   data.forEach((item, index) => {
     const card = document.createElement('div');
     card.className = 'card';
@@ -182,6 +225,7 @@
     writePanel.id = `write-${index}`;
     writePanel.innerHTML = `
       <textarea placeholder="전체 문장을 영작해보세요..."></textarea>
+      <div class="diff-box"></div>
       <div class="action-bar">
         <div class="feedback"></div>
         <div class="btn-group">
@@ -236,23 +280,61 @@
       const btn = document.createElement('button');
       btn.className = 'chip';
       btn.textContent = chunk;
+      btn.draggable = true;
+      
       btn.onclick = function() {
         if (this.parentElement === poolArea) dropArea.appendChild(this);
         else poolArea.appendChild(this);
       };
+
+      btn.addEventListener('dragstart', function(e) {
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+
+      btn.addEventListener('dragend', function() {
+        this.classList.remove('dragging');
+      });
+
+      btn.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const dragging = document.querySelector('.dragging');
+        if (!dragging || this === dragging) return;
+        const box = this.getBoundingClientRect();
+        if (e.clientX < box.left + box.width / 2) {
+          this.parentNode.insertBefore(dragging, this);
+        } else {
+          this.parentNode.insertBefore(dragging, this.nextSibling);
+        }
+      });
+
       poolArea.appendChild(btn);
+    });
+
+    [dropArea, poolArea].forEach(container => {
+      container.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        const dragging = document.querySelector('.dragging');
+        if (!dragging) return;
+        if (e.target === container) {
+          container.appendChild(dragging);
+        }
+      });
     });
 
     sortPanel.appendChild(dropArea);
     sortPanel.appendChild(poolArea);
     
     const sortAction = document.createElement('div');
-    sortAction.className = 'action-bar';
     sortAction.innerHTML = `
-      <div class="feedback"></div>
-      <div class="btn-group">
-        <button class="btn btn-primary check-sort">정답 확인</button>
-        <button class="btn btn-secondary reveal-ans">정답 보기</button>
+      <div class="diff-box"></div>
+      <div class="action-bar">
+        <div class="feedback"></div>
+        <div class="btn-group">
+          <button class="btn btn-primary check-sort">정답 확인</button>
+          <button class="btn btn-secondary reveal-ans">정답 보기</button>
+        </div>
       </div>
     `;
     sortPanel.appendChild(sortAction);
@@ -281,6 +363,7 @@
         card.querySelector(`#${btn.dataset.target}`).classList.add('active');
         answerBox.classList.remove('show');
         card.querySelectorAll('.feedback').forEach(f => f.textContent = '');
+        card.querySelectorAll('.diff-box').forEach(b => b.classList.remove('show'));
       });
     });
 
@@ -293,10 +376,14 @@
     writePanel.querySelector('.check-write').addEventListener('click', () => {
       const val = writePanel.querySelector('textarea').value;
       const fb = writePanel.querySelector('.feedback');
+      const diffBox = writePanel.querySelector('.diff-box');
       if(normalize(val) === normalize(item.en)) {
         fb.textContent = '완벽합니다!'; fb.className = 'feedback correct';
+        diffBox.classList.remove('show');
       } else {
-        fb.textContent = '틀렸습니다. 다시 확인해보세요.'; fb.className = 'feedback incorrect';
+        fb.textContent = '틀린 부분이 있습니다. 수정이 필요한 곳을 확인하세요.'; fb.className = 'feedback incorrect';
+        diffBox.innerHTML = getDiffHtml(val, item.en);
+        diffBox.classList.add('show');
       }
     });
 
@@ -322,10 +409,14 @@
     sortAction.querySelector('.check-sort').addEventListener('click', () => {
       const userText = Array.from(dropArea.children).map(c => c.textContent).join(' ');
       const fb = sortAction.querySelector('.feedback');
+      const diffBox = sortPanel.querySelector('.diff-box');
       if(normalize(userText) === normalize(item.en)) {
         fb.textContent = '순서가 완벽하게 맞습니다!'; fb.className = 'feedback correct';
+        diffBox.classList.remove('show');
       } else {
-        fb.textContent = '순서가 올바르지 않습니다.'; fb.className = 'feedback incorrect';
+        fb.textContent = '배열이 올바르지 않습니다. 틀린 부분을 확인하세요.'; fb.className = 'feedback incorrect';
+        diffBox.innerHTML = getDiffHtml(userText, item.en);
+        diffBox.classList.add('show');
       }
     });
   });
